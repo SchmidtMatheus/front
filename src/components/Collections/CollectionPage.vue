@@ -18,7 +18,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { photos } from '../services/photos'
+import { photos } from '../../services/photos'
 
 const route = useRoute()
 const selectedPhoto = ref(null)

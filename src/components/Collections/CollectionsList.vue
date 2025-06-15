@@ -12,7 +12,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { getCollections } from '../services/collections'
+import { getCollections } from '../../services/collections'
 
 const collections = ref([])
 
