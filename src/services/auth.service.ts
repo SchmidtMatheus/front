@@ -1,9 +1,12 @@
 import api from './axios'
 
-const authService = {
+export const authService = {
   async login(email: string, password: string) {
     const response = await api.post('/auth/login', { email, password })
-    return response.data
+    const { access_token, user } = response.data
+    localStorage.setItem('token', access_token)
+    localStorage.setItem('user', JSON.stringify(user))
+    return user
   },
 
   async register(users: any[]) {
@@ -16,14 +19,12 @@ const authService = {
     localStorage.removeItem('user')
   },
 
-  getToken() {
-    return localStorage.getItem('token')
+  isAuthenticated() {
+    return !!localStorage.getItem('token')
   },
 
-  getUser() {
+  getCurrentUser() {
     const user = localStorage.getItem('user')
     return user ? JSON.parse(user) : null
   }
-}
-
-export default authService 
+} 
