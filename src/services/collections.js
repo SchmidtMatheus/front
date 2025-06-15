@@ -1,5 +1,18 @@
-export const collections = [
-  { id: 1, name: 'Natureza', coverUrl: 'https://source.unsplash.com/random/400x300?nature' },
-  { id: 2, name: 'Cidades', coverUrl: 'https://source.unsplash.com/random/400x300?city' },
-  { id: 3, name: 'Animais', coverUrl: 'https://source.unsplash.com/random/400x300?animals' },
-];
+import axios from "axios";
+
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+
+export const collectionService = {
+  async createCollection({ name, description }) {
+    const response = await axios.post(`${API_URL}/collections`, {
+      name,
+      description,
+    });
+    return response.data;
+  },
+
+  async listCollections() {
+    const response = await axios.get(`${API_URL}/collections`);
+    return response.data;
+  },
+};
