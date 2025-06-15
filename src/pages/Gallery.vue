@@ -1,133 +1,77 @@
 <template>
-  <div class="p-4 md:p-6">
-    <div class="max-w-4xl mx-auto">
-      <div class="flex justify-between items-center mb-8">
-        <h1 class="text-3xl font-bold text-pink-600">Galeria</h1>
-        <button 
-          @click="handleLogout"
-          class="md:hidden flex items-center gap-2 text-pink-600 hover:text-pink-700"
-        >
+ <div class="min-h-screen pb-8 px-4"> 
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-3xl font-bold text-pink-600">Galeria</h1>
+      <div class="flex gap-4">
+        <button @click="showAddModal = true"
+          class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+          Nova Coleção
+        </button>
+        <button @click="handleLogout" class="md:hidden flex items-center gap-2 text-pink-600 hover:text-pink-700">
           <span class="material-icons">logout</span>
           <span>Sair</span>
         </button>
       </div>
-      <h1 class="text-2xl md:text-3xl font-bold text-pink-600 mb-2">Nossas Memórias</h1>
-      <p class="text-gray-600 mb-6">Capturem e guardem seus momentos especiais juntos</p>
-
-      <!-- Collections Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <div 
-          v-for="i in 6" 
-          :key="i"
-          class="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow p-4 cursor-pointer border border-pink-100"
-        >
-          <div class="aspect-square bg-pink-50 rounded-lg mb-3 flex items-center justify-center">
-            <span class="material-icons text-4xl text-pink-300">photo_library</span>
-          </div>
-          <h3 class="font-medium text-pink-600">Nossos Momentos Especiais</h3>
-          <p class="text-sm text-gray-500">Coleção {{ i }}</p>
-          <p class="text-xs text-pink-400 mt-1">{{ Math.floor(Math.random() * 20) + 1 }} {{ (Math.floor(Math.random() * 20) + 1) === 1 ? 'memória' : 'memórias' }}</p>
-        </div>
-      </div>
-
-      <!-- Add New Collection Button -->
-      <button 
-        class="fixed bottom-20 md:bottom-6 right-6 bg-pink-500 text-white p-3 rounded-full shadow-lg hover:bg-pink-600 transition-colors"
-        @click="showAddModal = true"
-      >
-        <span class="material-icons">add_photo_alternate</span>
-      </button>
-
-      <!-- Add Collection Modal -->
-      <Modal v-if="showAddModal" @close="showAddModal = false">
-        <template #header>
-          <h3 class="text-lg font-medium text-pink-600">Nova Coleção</h3>
-        </template>
-        <template #default>
-          <form @submit.prevent="addCollection" class="space-y-4">
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Nome da Coleção</label>
-              <input 
-                type="text" 
-                v-model="newCollection.name"
-                class="w-full px-3 py-2 border border-pink-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
-                placeholder="Ex: Nosso Primeiro Encontro"
-                required
-              >
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Descrição</label>
-              <textarea 
-                v-model="newCollection.description"
-                class="w-full px-3 py-2 border border-pink-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
-                rows="3"
-                placeholder="Conte um pouco sobre esta coleção..."
-              ></textarea>
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Imagem de Capa</label>
-              <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-pink-200 border-dashed rounded-lg">
-                <div class="space-y-1 text-center">
-                  <div class="flex text-sm text-gray-600">
-                    <label
-                      for="file-upload"
-                      class="relative cursor-pointer bg-white rounded-md font-medium text-pink-600 hover:text-pink-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-pink-500"
-                    >
-                      <span>Upload uma imagem</span>
-                      <input 
-                        id="file-upload" 
-                        name="file-upload" 
-                        type="file" 
-                        class="sr-only"
-                        accept="image/*"
-                        @change="handleFileUpload"
-                        required
-                      >
-                    </label>
-                    <p class="pl-1">ou arraste e solte</p>
-                  </div>
-                  <p class="text-xs text-gray-500">
-                    PNG, JPG, GIF até 10MB
-                  </p>
-                </div>
-              </div>
-            </div>
-          </form>
-        </template>
-        <template #footer>
-          <div class="flex justify-end space-x-3">
-            <button 
-              @click="showAddModal = false"
-              class="px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
-            >
-              Cancelar
-            </button>
-            <button 
-              @click="addCollection"
-              class="px-4 py-2 text-sm font-medium text-white bg-pink-500 hover:bg-pink-600 rounded-lg transition-colors"
-            >
-              Criar Coleção
-            </button>
-          </div>
-        </template>
-      </Modal>
     </div>
+
+    <!-- Coleções -->
+    <div v-if="collections.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div v-for="collection in collections" :key="collection._id"
+        class="bg-white rounded-lg shadow hover:shadow-md transition-shadow p-4">
+        <div class="w-full aspect-video bg-gray-100 rounded flex items-center justify-center overflow-hidden">
+          <img v-if="collection.coverPhotoUrl" :src="collection.coverPhotoUrl" alt="Capa da coleção"
+            class="h-full w-auto object-contain" />
+          <Logo v-else />
+        </div>
+        <h2 class="text-lg font-semibold text-gray-700 mt-2 truncate">{{ collection.name }}</h2>
+        <p class="text-xs text-pink-500 mt-1 line-clamp-2">
+          {{ collection.description || 'Sem descrição.' }}
+        </p>
+      </div>
+    </div>
+
+
+    <!-- Sem coleções -->
+    <div v-else class="text-center mt-16">
+      <p class="text-md text-pink-600">Capturem e guardem seus momentos especiais juntos.</p>
+      <p class="text-sm mt-2 text-pink-500">Clique em "Nova Coleção" para começar.</p>
+    </div>
+
+    <!-- Modal -->
+    <Modal v-model="showAddModal">
+      <h2 class="text-xl font-semibold mb-4 text-gray-800">Nova Coleção</h2>
+      <AddCollectionForm @cancel="showAddModal = false" @created="() => { showAddModal = false; loadCollections() }" />
+    </Modal>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import AddCollectionForm from '../components/Collections/AddCollectionForm.vue'
+import Logo from '../components/Layout/Logo.vue'
 import Modal from '../components/Modal.vue'
 import { authService } from '../services/auth.service'
+import { collectionService } from '../services/collections.js'
+
 const router = useRouter()
 
 const showAddModal = ref(false)
-const newCollection = ref({
-  name: '',
-  description: '',
-  coverUrl: ''
-})
+const newCollection = ref({ name: '', description: '' })
+const selectedFile = ref(null)
+const collections = ref([])
+const isSubmitting = ref(false)
+
+const loadCollections = async () => {
+  try {
+    collections.value = await collectionService.listCollections()
+  } catch (error) {
+    alert('Erro ao carregar coleções')
+    console.error(error)
+  }
+}
+
+onMounted(loadCollections)
 
 const handleLogout = () => {
   authService.logout()
@@ -137,19 +81,46 @@ const handleLogout = () => {
 const handleFileUpload = (event) => {
   const file = event.target.files[0]
   if (file) {
-    // TODO: Implement file upload to get URL
-    // For now, we'll use a placeholder
-    newCollection.value.coverUrl = URL.createObjectURL(file)
+    const maxSizeMB = 10
+    if (file.size > maxSizeMB * 1024 * 1024) {
+      alert(`Imagem deve ter no máximo ${maxSizeMB}MB.`)
+      selectedFile.value = null
+      return
+    }
+    selectedFile.value = file
   }
 }
 
-const addCollection = () => {
-  // TODO: Implement collection creation with API
-  showAddModal.value = false
-  newCollection.value = {
-    name: '',
-    description: '',
-    coverUrl: ''
+const addCollection = async () => {
+  if (!selectedFile.value || !newCollection.value.name) {
+    alert('Preencha o nome e selecione um arquivo.')
+    return
+  }
+
+  if (!selectedFile.value) {
+    alert('Selecione uma imagem de capa antes de criar.')
+    return
+  }
+
+  isSubmitting.value = true
+
+  try {
+    await collectionService.createCollection({
+      name: newCollection.value.name,
+      description: newCollection.value.description,
+      file: selectedFile.value
+    })
+
+    await loadCollections()
+
+    newCollection.value = { name: '', description: '' }
+    selectedFile.value = null
+    showAddModal.value = false
+  } catch (error) {
+    alert('Erro ao criar coleção.')
+    console.error(error)
+  } finally {
+    isSubmitting.value = false
   }
 }
-</script> 
+</script>
