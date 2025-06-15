@@ -26,7 +26,7 @@
           </div>
           <h3 class="font-medium text-pink-600">Nossos Momentos Especiais</h3>
           <p class="text-sm text-gray-500">Coleção {{ i }}</p>
-          <p class="text-xs text-pink-400 mt-1">{{ Math.floor(Math.random() * 20) + 1 }} memórias</p>
+          <p class="text-xs text-pink-400 mt-1">{{ Math.floor(Math.random() * 20) + 1 }} {{ (Math.floor(Math.random() * 20) + 1) === 1 ? 'memória' : 'memórias' }}</p>
         </div>
       </div>
 
@@ -119,7 +119,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import Modal from '../components/Modal.vue'
-import authService from '../services/auth.service'
+import { authService } from '../services/auth.service'
 const router = useRouter()
 
 const showAddModal = ref(false)
