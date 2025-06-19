@@ -1,33 +1,39 @@
 <template>
- <div class="min-h-screen pb-8 px-4"> 
+  <div class="min-h-screen pb-8 px-4">
     <div class="flex justify-between items-center mb-6">
       <h1 class="text-3xl font-bold text-pink-600">Galeria</h1>
-      <div class="flex gap-4">
-        <button @click="showAddModal = true"
-          class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-          Nova Coleção
-        </button>
+      <div class="flex flex-col gap-4 items-center justify-center">
         <button @click="handleLogout" class="md:hidden flex items-center gap-2 text-pink-600 hover:text-pink-700">
           <span class="material-icons">logout</span>
           <span>Sair</span>
         </button>
       </div>
     </div>
+    <div class="flex flex-col gap-4 items-end justify-end pb-5">
+      <button @click="showAddModal = true"
+          class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+          Nova Coleção
+        </button>
+    </div>
 
     <!-- Coleções -->
     <div v-if="collections.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-      <div v-for="collection in collections" :key="collection._id"
-        class="bg-white rounded-lg shadow hover:shadow-md transition-shadow p-4">
+      <router-link
+        v-for="collection in collections"
+        :key="collection._id"
+        :to="`/collection/${collection._id}`"
+        class="bg-white rounded-lg shadow-lg hover:shadow-2xl transition-shadow p-4 cursor-pointer flex flex-col group hover:-translate-y-1 hover:scale-105 active:scale-95 duration-200 border-2 border-transparent hover:border-pink-200 focus:outline-none focus:ring-2 focus:ring-pink-300"
+      >
         <div class="w-full aspect-video bg-gray-100 rounded flex items-center justify-center overflow-hidden">
           <img v-if="collection.coverPhotoUrl" :src="collection.coverPhotoUrl" alt="Capa da coleção"
             class="h-full w-auto object-contain" />
           <Logo v-else />
         </div>
         <h2 class="text-lg font-semibold text-gray-700 mt-2 truncate">{{ collection.name }}</h2>
-        <p class="text-xs text-pink-500 mt-1 line-clamp-2">
+        <p class="text-xs text-pink-500 mt-1 line-clamp-2 truncate">
           {{ collection.description || 'Sem descrição.' }}
         </p>
-      </div>
+      </router-link>
     </div>
 
 
@@ -75,7 +81,7 @@ onMounted(loadCollections)
 
 const handleLogout = () => {
   authService.logout()
-  router.push('/login')
+  router.push('/')
 }
 
 const handleFileUpload = (event) => {
