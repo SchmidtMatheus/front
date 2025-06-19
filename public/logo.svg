@@ -1,0 +1,18 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+    <!-- Fundo circular -->
+    <circle cx="32" cy="32" r="32" fill="#FCE4EC" />
+
+    <!-- Ícone de câmera -->
+    <g transform="translate(14,20)">
+        <rect x="0" y="4" width="36" height="20" rx="4" fill="#E91E63" />
+        <circle cx="18" cy="14" r="6" fill="#fff" />
+        <circle cx="18" cy="14" r="3" fill="#E91E63" />
+        <rect x="5" y="0" width="6" height="6" rx="1" fill="#E91E63" />
+    </g>
+
+    <!-- Coração -->
+    <path
+        d="M44 4C41.8 4 40 5.8 40 8C40 10.2 42.1 12.2 45.6 15.3C45.8 15.5 46.2 15.5 46.4 15.3C49.9 12.2 52 10.2 52 8C52 5.8 50.2 4 48 4C46.7 4 45.5 4.6 44.8 5.5C44.1 4.6 42.9 4 41.6 4H44Z"
+        fill="#EC407A" />
+</svg>
+  
