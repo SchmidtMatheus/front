@@ -66,7 +66,7 @@ const isAuthenticated = computed(() => {
 const handleLogout = async () => {
   try {
     authService.logout();
-    router.push('/login');
+    router.push('/');
   } catch (error) {
     console.error('Error logging out:', error);
   }

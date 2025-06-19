@@ -106,7 +106,7 @@ const router = useRouter()
 
 const handleLogout = () => {
   authService.logout()
-  router.push('/login')
+  router.push('/')
 }
 
 const props = defineProps({
