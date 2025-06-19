@@ -15,4 +15,9 @@ export const collectionService = {
     const response = await axios.get(`${API_URL}/collections`);
     return response.data;
   },
+
+  async getCollection(id) {
+    const response = await axios.get(`${API_URL}/collections/${id}`);
+    return response.data;
+  },
 };
