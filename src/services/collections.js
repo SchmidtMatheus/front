@@ -20,4 +20,16 @@ export const collectionService = {
     const response = await axios.get(`${API_URL}/collections/${id}`);
     return response.data;
   },
+
+  async updateCollection(id, data) {
+    const response = await axios.put(`${API_URL}/collections/${id}`, data);
+    return response.data;
+  },
+
+  async setCoverPhoto(collectionId, photoId) {
+    const response = await axios.put(`${API_URL}/collections/${collectionId}/cover/${photoId}`);
+    return response.data;
+  },
+
+
 };

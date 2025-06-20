@@ -15,3 +15,8 @@ export async function uploadPhoto({ url, description, collectionId }) {
   });
   return response.data;
 }
+
+export async function deletePhoto(photoId) {
+  const response = await axios.delete(`${API_URL}/photos/${photoId}`);
+  return response.data;
+}
