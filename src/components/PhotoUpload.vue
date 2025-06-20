@@ -6,7 +6,6 @@
       <div v-if="preview" class="flex justify-center mb-2">
         <img :src="preview" alt="Preview" class="max-h-40 rounded shadow" />
       </div>
-      <input type="text" v-model="url" placeholder="URL da imagem (opcional)" class="w-full border p-2 rounded focus:ring-pink-500 focus:border-pink-500" />
       <button type="submit" :disabled="uploading" class="w-full bg-pink-600 hover:bg-pink-700 text-white py-2 rounded font-semibold transition-colors active:scale-95 flex items-center justify-center gap-2">
         <span v-if="uploading" class="animate-spin border-2 border-white border-t-transparent rounded-full w-5 h-5"></span>
         <span v-else class="material-icons">cloud_upload</span>
