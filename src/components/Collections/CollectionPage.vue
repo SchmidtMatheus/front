@@ -1,8 +1,11 @@
 <template>
   <div>
     <h2 class="text-2xl font-semibold mb-4">Galeria</h2>
-    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-      <div v-for="photo in collectionPhotos" :key="photo.id" class="cursor-pointer transform hover:scale-105 transition" @click="openModal(photo.url)">
+    <div v-if="loading" class="flex justify-center">
+      <p>Carregando...</p>
+    </div>
+    <div v-else class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+      <div v-for="photo in collectionPhotos" :key="photo._id" class="cursor-pointer transform hover:scale-105 transition" @click="openModal(photo.url)">
         <div class="overflow-hidden rounded-lg shadow-lg">
           <img :src="photo.url" alt="" class="w-full h-40 object-cover" />
         </div>
@@ -16,15 +19,28 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-import { photos } from '../../services/photos'
+import { getPhotosByCollection } from '../../services/photos'
 
 const route = useRoute()
 const selectedPhoto = ref(null)
+const collectionPhotos = ref([])
+const loading = ref(true)
 
-const collectionId = Number(route.params.id)
-const collectionPhotos = computed(() => photos[collectionId] || [])
+const collectionId = route.params.id
+
+const loadPhotos = async () => {
+  try {
+    collectionPhotos.value = await getPhotosByCollection(collectionId)
+  } catch (error) {
+    console.error('Error loading photos:', error)
+  } finally {
+    loading.value = false
+  }
+}
+
+onMounted(loadPhotos)
 
 const openModal = (url) => {
   selectedPhoto.value = url

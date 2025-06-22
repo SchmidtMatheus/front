@@ -1,4 +1,3 @@
-
 <template>
   <div class="p-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
     <div v-for="collection in collections" :key="collection._id">
@@ -12,11 +11,15 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { getCollections } from '../../services/collections'
+import { collectionService } from '../../services/collections'
 
 const collections = ref([])
 
 onMounted(async () => {
-  collections.value = await getCollections()
+  try {
+    collections.value = await collectionService.listCollections()
+  } catch (error) {
+    console.error('Error loading collections:', error)
+  }
 })
 </script>

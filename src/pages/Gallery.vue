@@ -61,7 +61,7 @@ import AddCollectionForm from '../components/Collections/AddCollectionForm.vue'
 import Logo from '../components/Layout/Logo.vue'
 import Modal from '../components/Modal.vue'
 import { authService } from '../services/auth.service'
-import { collectionService } from '../services/collections.js'
+import { collectionService } from '../services/collections'
 
 const router = useRouter()
 
